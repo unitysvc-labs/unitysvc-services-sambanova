@@ -1,90 +1,122 @@
 #!/usr/bin/env python3
 """
-Simplified update_services.py for SambaNova using unitysvc_services data builders.
+Template-based update_services.py for SambaNova.
 
-Usage: scripts/update_services.py
+Yields model dictionaries that are rendered using Jinja2 templates.
 
-Files are automatically updated if content changes (time_created differences are ignored).
+Usage: python scripts/update_services.py
 """
 
 import json
 import os
 import sys
 from pathlib import Path
+from typing import Iterator
 
 import any_llm
-import requests
 
-from unitysvc_services import ListingDataBuilder, OfferingDataBuilder
+from unitysvc_services import ModelDataFetcher, ModelDataLookup, populate_from_iterator
 
-# Configuration
+# Provider Configuration
 PROVIDER_NAME = "sambanova"
-DISPLAY_NAME = "SambaNova Systems"
+PROVIDER_DISPLAY_NAME = "SambaNova"
 API_BASE_URL = "https://api.sambanova.ai/v1"
 ENV_API_KEY_NAME = "SAMBANOVA_API_KEY"
 
 SCRIPT_DIR = Path(__file__).parent
-OUTPUT_DIR = SCRIPT_DIR.parent / "services"
 
 
-class LiteLLMDataFetcher:
-    """Fetches model pricing data from LiteLLM."""
-
-    def __init__(self):
-        self.session = requests.Session()
-        self._data = None
-
-    def fetch(self) -> dict:
-        if self._data is not None:
-            return self._data
-        url = "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json"
-        try:
-            print("Fetching LiteLLM model data...")
-            response = self.session.get(url, timeout=30)
-            response.raise_for_status()
-            self._data = response.json()
-            print(f"  Found {len(self._data)} models in LiteLLM data")
-            return self._data
-        except (requests.RequestException, json.JSONDecodeError) as e:
-            print(f"Warning: Failed to fetch LiteLLM model data: {e}")
-            self._data = {}
-            return self._data
-
-    def lookup(self, model_id: str) -> dict | None:
-        data = self.fetch()
-        if not data:
-            return None
-        provider_key = f"{PROVIDER_NAME}/{model_id}"
-        if provider_key in data:
-            return data[provider_key]
-        if model_id in data:
-            return data[model_id]
-        for key in data:
-            if model_id in key or key.endswith(f"/{model_id}"):
-                return data[key]
-        return None
-
-
-class ModelExtractor:
-    """Extract model data and create service files."""
+class ModelSource:
+    """Fetches models and yields template dictionaries."""
 
     def __init__(self, api_key: str):
         self.api_key = api_key
-        self.litellm = LiteLLMDataFetcher()
-        self.stats = {"total": 0, "processed": 0, "failed": 0, "pricing_found": 0}
-        self._current_pricing = None
+        self.data_fetcher = ModelDataFetcher()
+        self.litellm_data = None
 
-    def get_all_models(self) -> list:
-        print(f"Fetching models from {DISPLAY_NAME} API...")
+    def iter_models(self) -> Iterator[dict]:
+        """Yield model dictionaries for template rendering."""
+        # Fetch LiteLLM data once
+        self.litellm_data = self.data_fetcher.fetch_litellm_model_data()
+
+        print(f"Fetching models from {PROVIDER_DISPLAY_NAME} API...")
         try:
             models = any_llm.list_models(PROVIDER_NAME, api_key=self.api_key)
-            print(f"Found {len(models)} models")
-            return models
+            print(f"Found {len(models)} models\n")
         except Exception as e:
             print(f"Error listing models: {e}")
-            return []
+            return
 
-    def determine_service_type(self, model_id: str) -> str:
+        for i, model in enumerate(models, 1):
+            model_info = json.loads(model.to_json())
+            model_id = model_info.get("id", str(model))
+            print(f"[{i}/{len(models)}] {model_id}")
+
+            # Build template variables
+            template_vars = self._build_template_vars(model_id, model_info)
+            if template_vars:
+                yield template_vars
+                print("  OK")
+
+    def _build_template_vars(self, model_id: str, model_info: dict) -> dict:
+        """Build template variables for a model."""
+        service_type = self._determine_service_type(model_id)
+        display_name = model_id.replace("-", " ").replace("_", " ").title()
+
+        # Build details from LiteLLM data and model info
+        details = {}
+        model_data = ModelDataLookup.lookup_model_details(model_id, self.litellm_data or {})
+
+        if model_data:
+            for field in ["max_tokens", "max_input_tokens", "max_output_tokens", "mode"]:
+                if field in model_data:
+                    details[field] = model_data[field]
+            if "max_input_tokens" in model_data:
+                details["contextLength"] = model_data["max_input_tokens"]
+            if "litellm_provider" in model_data:
+                details["litellm_provider"] = model_data["litellm_provider"]
+
+        if "owned_by" in model_info:
+            details["owned_by"] = model_info["owned_by"]
+        if "object" in model_info:
+            details["object"] = model_info["object"]
+
+        # Extract pricing
+        pricing = None
+        if model_data:
+            if "input_cost_per_token" in model_data and "output_cost_per_token" in model_data:
+                input_price = float(model_data["input_cost_per_token"]) * 1_000_000
+                output_price = float(model_data["output_cost_per_token"]) * 1_000_000
+                pricing = {
+                    "type": "one_million_tokens",
+                    "input": self._format_price(input_price),
+                    "output": self._format_price(output_price),
+                    "description": "Pricing Per 1M Tokens Input/Output",
+                    "reference": None,
+                }
+
+        return {
+            # Directory name uses -byop suffix (used by populate_from_iterator)
+            "name": f"{model_id}-byop",
+            # Offering name is the model_id (without -byop suffix)
+            "offering_name": model_id,
+            # Offering fields
+            "display_name": display_name,
+            "description": f"{display_name} language model",
+            "service_type": service_type,
+            "status": "ready",
+            "details": details,
+            "payout_price": pricing,
+            # Listing fields
+            "list_price": pricing,
+            # Provider config (for templates)
+            "provider_name": PROVIDER_NAME,
+            "provider_display_name": PROVIDER_DISPLAY_NAME,
+            "api_base_url": API_BASE_URL,
+            "env_api_key_name": ENV_API_KEY_NAME,
+        }
+
+    def _determine_service_type(self, model_id: str) -> str:
         model_lower = model_id.lower()
         if any(kw in model_lower for kw in ["embed", "embedding"]):
             return "embedding"
@@ -92,147 +124,13 @@ class ModelExtractor:
             return "rerank"
         if any(kw in model_lower for kw in ["vision"]):
             return "vision_language_model"
-        if any(kw in model_lower for kw in ["whisper"]):
-            return "prerecorded_transcription"
         return "llm"
 
-    def get_code_examples(self, model_id: str) -> list[tuple[str, str, str]]:
-        model_lower = model_id.lower()
-        if any(kw in model_lower for kw in ["whisper"]):
-            return [
-                ("Python code example", "../../docs/code-example-prerecordedtranscription.py.j2", "python"),
-                ("JavaScript code example", "../../docs/code-example-prerecordedtranscription.js.j2", "javascript"),
-                ("cURL code example", "../../docs/code-example-prerecordedtranscription.sh.j2", "bash"),
-            ]
-        return [
-            ("Python code example", "../../docs/code-example.py.j2", "python"),
-            ("JavaScript code example", "../../docs/code-example.js.j2", "javascript"),
-            ("cURL code example", "../../docs/code-example.sh.j2", "bash"),
-            ("Python function calling code example", "../../docs/code-example-fc.py.j2", "python"),
-        ]
-
-    def format_price(self, price: float) -> str:
+    def _format_price(self, price: float) -> str:
         """Format price without trailing .0 for whole numbers."""
         if price == int(price):
             return str(int(price))
         return str(price)
-
-    def build_offering(self, model_id: str, model_info: dict) -> OfferingDataBuilder:
-        service_type = self.determine_service_type(model_id)
-        display_name = model_id.replace("-", " ").replace("_", " ").title()
-
-        builder = (
-            OfferingDataBuilder(model_id)
-            .set_description(f"{display_name} language model")
-            .set_display_name(display_name)
-            .set_service_type(service_type)
-            .set_status("ready")
-            .add_tag("byop")
-        )
-
-        litellm_details = self.litellm.lookup(model_id)
-        if litellm_details:
-            for field in ["max_tokens", "max_input_tokens", "max_output_tokens", "mode"]:
-                if field in litellm_details:
-                    builder.add_detail(field, litellm_details[field])
-            if "max_input_tokens" in litellm_details:
-                builder.add_detail("contextLength", litellm_details["max_input_tokens"])
-            if "litellm_provider" in litellm_details:
-                builder.add_detail("litellm_provider", litellm_details["litellm_provider"])
-            if "input_cost_per_token" in litellm_details and "output_cost_per_token" in litellm_details:
-                input_price = float(litellm_details["input_cost_per_token"]) * 1_000_000
-                output_price = float(litellm_details["output_cost_per_token"]) * 1_000_000
-                self._current_pricing = {
-                    "type": "one_million_tokens",
-                    "input": self.format_price(input_price),
-                    "output": self.format_price(output_price),
-                    "description": "Pricing Per 1M Tokens Input/Output",
-                    "reference": None,
-                }
-                builder.set_payout_price(self._current_pricing)
-                self.stats["pricing_found"] += 1
-            else:
-                self._current_pricing = None
-        else:
-            self._current_pricing = None
-
-        if "owned_by" in model_info:
-            builder.add_detail("owned_by", model_info["owned_by"])
-        if "object" in model_info:
-            builder.add_detail("object", model_info["object"])
-
-        builder.add_upstream_interface(f"{DISPLAY_NAME} API", base_url=API_BASE_URL,
-            api_key="${ secrets.SAMBANOVA_API_KEY }",
-            rate_limits=[])
-        return builder
-
-    def build_listing(self, model_id: str) -> ListingDataBuilder:
-        builder = (
-            ListingDataBuilder()
-            .set_status("ready")
-            .add_user_interface("Provider API", base_url=f"${{GATEWAY_BASE_URL}}/p/{PROVIDER_NAME}")
-        )
-
-        for title, path, mime_type in self.get_code_examples(model_id):
-            builder.add_code_example(title, path, mime_type=mime_type, description="Example code to use the model")
-
-        builder.set_raw("user_parameters_schema", {
-            "title": "Be Your Own Provider",
-            "description": "Access service with your own api-key",
-            "type": "object",
-            "required": ["api_key"],
-            "properties": {"api_key": {"type": "string", "title": "API Key", "default": ""}},
-        })
-        builder.set_raw("user_parameters_ui_schema", {
-            "api_key": {
-                "ui:disabled": True,
-                "ui:description": f"API Key ({ENV_API_KEY_NAME}) is managed via secrets",
-            }
-        })
-        builder.set_raw("service_options", {"default_parameters": {"api_key": "${ secrets.SAMBANOVA_API_KEY }"}})
-        builder.set_raw("list_price", self._current_pricing)
-        return builder
-
-    def process_model(self, model, output_dir: Path) -> bool:
-        model_info = json.loads(model.to_json())
-        model_id = model_info.get("id", str(model))
-        dir_name = model_id.replace(":", "_").replace("/", "_") + "-byop"
-        data_dir = output_dir / dir_name
-
-        offering = self.build_offering(model_id, model_info)
-        listing = self.build_listing(model_id)
-
-        offering_written = offering.write(data_dir / "offering.json")
-        listing_written = listing.write(data_dir / "listing.json")
-
-        status = []
-        if offering_written:
-            status.append("offering")
-        if listing_written:
-            status.append("listing")
-        print(f"  {'Written: ' + ', '.join(status) if status else 'Unchanged'}")
-        return True
-
-    def run(self):
-        print(f"Starting {DISPLAY_NAME} model extraction...\n")
-        models = self.get_all_models()
-        if not models:
-            print("No models to process.")
-            return
-
-        self.stats["total"] = len(models)
-        for i, model in enumerate(models, 1):
-            model_info = json.loads(model.to_json())
-            model_id = model_info.get("id", str(model))
-            print(f"\n[{i}/{len(models)}] {model_id}")
-
-            if self.process_model(model, OUTPUT_DIR):
-                self.stats["processed"] += 1
-            else:
-                self.stats["failed"] += 1
-
-        print(f"\nDone! Total: {self.stats['total']}, Processed: {self.stats['processed']}, "
-              f"Failed: {self.stats['failed']}, Pricing found: {self.stats['pricing_found']}")
 
 
 def main():
@@ -240,7 +138,13 @@ def main():
     if not api_key:
         print(f"Error: {ENV_API_KEY_NAME} not set")
         sys.exit(1)
-    ModelExtractor(api_key).run()
+
+    source = ModelSource(api_key)
+    populate_from_iterator(
+        iterator=source.iter_models(),
+        templates_dir=SCRIPT_DIR.parent / "templates",
+        output_dir=SCRIPT_DIR.parent / "services",
+    )
 
 
 if __name__ == "__main__":

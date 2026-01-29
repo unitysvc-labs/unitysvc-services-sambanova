@@ -8,7 +8,7 @@ terms_of_service = "https://sambanova.ai/terms-and-conditions"
 time_created = "2025-09-01T00:00:00Z"
 
 [services_populator]
-command = ['scripts/update_services.py']
+command = 'scripts/update_services.py'
 requirements = ['any-llm-sdk[sambanova]', 'requests', 'unitysvc-services']
 
 [services_populator.envs]
