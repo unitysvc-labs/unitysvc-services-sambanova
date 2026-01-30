@@ -2,11 +2,11 @@
   "currency": "USD",
   "description": "Deepseek V3 0324 language model",
   "details": {
-    "contextLength": 32768,
-    "litellm_provider": "sambanova",
-    "max_input_tokens": 32768,
-    "max_output_tokens": 32768,
-    "max_tokens": 32768,
+    "contextLength": 163840,
+    "litellm_provider": "deepinfra",
+    "max_input_tokens": 163840,
+    "max_output_tokens": 163840,
+    "max_tokens": 163840,
     "mode": "chat",
     "object": "model",
     "owned_by": "no-reply@sambanova.ai"
@@ -15,8 +15,8 @@
   "name": "DeepSeek-V3-0324",
   "payout_price": {
     "description": "Pricing Per 1M Tokens Input/Output",
-    "input": "3",
-    "output": "4.5",
+    "input": "0.25",
+    "output": "0.88",
     "reference": null,
     "type": "one_million_tokens"
   },
@@ -28,7 +28,7 @@
   ],
   "time_created": "2026-01-26T02:54:03.686Z",
   "upstream_access_interfaces": {
-    "SambaNova Systems API": {
+    "SambaNova API": {
       "access_method": "http",
       "api_key": "${ secrets.SAMBANOVA_API_KEY }",
       "base_url": "https://api.sambanova.ai/v1",

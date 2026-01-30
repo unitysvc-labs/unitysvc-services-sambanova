@@ -1,6 +1,13 @@
 {
   "currency": "USD",
   "documents": {
+    "How to use this model": {
+      "category": "getting_started",
+      "file_path": "../../docs/description.md",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "markdown"
+    },
     "JavaScript code example": {
       "category": "code_example",
       "description": "Example code to use the model",
@@ -36,8 +43,8 @@
   },
   "list_price": {
     "description": "Pricing Per 1M Tokens Input/Output",
-    "input": "0.39999999999999997",
-    "output": "0.7999999999999999",
+    "input": "0.09999999999999999",
+    "output": "0.28",
     "reference": null,
     "type": "one_million_tokens"
   },
