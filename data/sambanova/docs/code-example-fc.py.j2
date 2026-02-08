@@ -1,12 +1,12 @@
 import requests
 import os
 
-API_KEY = os.environ.get("API_KEY")
+UNITYSVC_API_KEY = os.environ.get("UNITYSVC_API_KEY")
 
 url = "https://api.sambanova.ai/v1/chat/completions"
 
 headers = {
-    "Authorization": f"Bearer {API_KEY}",
+    "Authorization": f"Bearer {UNITYSVC_API_KEY}",
     "Content-Type": "application/json"
 }
 
