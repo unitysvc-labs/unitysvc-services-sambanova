@@ -59,7 +59,10 @@
   "user_access_interfaces": {
     "Provider API": {
       "access_method": "http",
-      "base_url": "${GATEWAY_BASE_URL}/p/sambanova"
+      "base_url": "${GATEWAY_BASE_URL}/p/sambanova",
+      "routing_key": {
+        "model": "Qwen3-235B"
+      }
     }
   },
   "user_parameters_schema": {
