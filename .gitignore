@@ -42,6 +42,9 @@ Thumbs.db
 *.env
 failed_*.env
 *.log
+*.out
+*.err
+*.status
 
 # Secrets (never commit these)
 .secrets
