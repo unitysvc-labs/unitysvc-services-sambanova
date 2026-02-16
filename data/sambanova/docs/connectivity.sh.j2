@@ -1,0 +1,9 @@
+curl -X POST "https://api.sambanova.ai/v1/chat/completions" \
+  -H "Authorization: Bearer $UNITYSVC_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "model": "{{offering.name}}",
+        "messages": [
+          { "role": "user", "content": "Say this is a test" }
+        ]
+      }'
