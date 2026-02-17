@@ -1,23 +1,16 @@
+from openai import OpenAI
 import os
-import requests
-import json
 
-UNITYSVC_API_KEY = os.environ.get("UNITYSVC_API_KEY")
-url = "https://api.sambanova.ai/v1/chat/completions"
+client = OpenAI(
+    api_key=os.environ.get("UNITYSVC_API_KEY"),
+    base_url=os.environ.get("UNITYSVC_BASE_URL")
+)
 
-payload = {
-    "model": "{{offering.name}}",
-    "messages": [
+completion = client.chat.completions.create(
+    model="{{offering.name}}",
+    messages=[
         {"role": "user", "content": "Say this is a test"}
     ]
-}
+)
 
-headers = {
-    "Authorization": f"Bearer {UNITYSVC_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-response = requests.post(url, headers=headers, json=payload)
-
-print(response.status_code)
-print(response.text)
+print(completion.choices[0].message.content)

@@ -1,46 +1,57 @@
-import requests
+from openai import OpenAI
 import os
+import json
 
-UNITYSVC_API_KEY = os.environ.get("UNITYSVC_API_KEY")
+# Initialize client
+client = OpenAI(
+    api_key=os.environ.get("UNITYSVC_API_KEY"),
+    base_url=os.environ.get("UNITYSVC_BASE_URL")
+)
 
-url = "https://api.sambanova.ai/v1/chat/completions"
+# Example function
+def get_weather(city):
+    return f"The weather in {city} is sunny."
 
-headers = {
-    "Authorization": f"Bearer {UNITYSVC_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Example function you want the model to call
-tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "get_weather",
-            "description": "Get the weather in a given city.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "city": {
-                        "type": "string",
-                        "description": "The city name"
-                    }
-                },
-                "required": ["city"]
-            }
-        }
-    }
-]
-
-payload = {
-    "model": "{{offering.name}}",
-    "messages": [
+# Create the chat completion request
+response = client.chat.completions.create(
+    model="{{offering.name}}",
+    messages=[
         {"role": "user", "content": "What's the weather like in Houston?"}
     ],
-    "tools": tools,
-    "tool_choice": "auto"
-}
+    tools=[
+        {
+            "type": "function",
+            "function": {
+                "name": "get_weather",
+                "description": "Get the weather in a given city.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "city": {
+                            "type": "string",
+                            "description": "The city name"
+                        }
+                    },
+                    "required": ["city"]
+                }
+            }
+        }
+    ],
+    tool_choice="auto"
+)
 
-resp = requests.post(url, headers=headers, json=payload)
+# Get the model's first message
+message = response.choices[0].message
 
-print(resp.status_code)
-print(resp.json())
+# Handle tool call if it exists
+if message.tool_calls:
+    for tool_call in message.tool_calls:
+        function_name = tool_call.function.name
+        function_args = json.loads(tool_call.function.arguments)
+
+        if function_name == "get_weather":
+            result = get_weather(function_args["city"])
+            print(result)
+else:
+    # No tool call - just print model output
+    print(message.content or "No content returned from model.")

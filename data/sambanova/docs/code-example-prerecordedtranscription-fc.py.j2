@@ -2,9 +2,10 @@ import os
 import requests
 
 UNITYSVC_API_KEY = os.getenv("UNITYSVC_API_KEY")
+UNITYSVC_BASE_URL = os.getenv("UNITYSVC_BASE_URL")
 
 def transcribe_file(path: str):
-    url = "https://api.sambanova.ai/v1/audio/transcriptions"
+    url = f"{UNITYSVC_BASE_URL}/audio/transcriptions"
     headers = {"Authorization": f"Bearer {UNITYSVC_API_KEY}"}
 
     files = {
