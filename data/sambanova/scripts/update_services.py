@@ -65,10 +65,14 @@ class ModelSource:
 
         # Build details from LiteLLM data and model info
         details = {}
-        model_data = ModelDataLookup.lookup_model_details(model_id, self.litellm_data or {})
+        model_data = ModelDataLookup.lookup_model_details(
+            model_id, self.litellm_data or {})
 
         if model_data:
-            for field in ["max_tokens", "max_input_tokens", "max_output_tokens", "mode"]:
+            for field in [
+                    "max_tokens", "max_input_tokens", "max_output_tokens",
+                    "mode"
+            ]:
                 if field in model_data:
                     details[field] = model_data[field]
             if "max_input_tokens" in model_data:
@@ -85,8 +89,10 @@ class ModelSource:
         pricing = None
         if model_data:
             if "input_cost_per_token" in model_data and "output_cost_per_token" in model_data:
-                input_price = float(model_data["input_cost_per_token"]) * 1_000_000
-                output_price = float(model_data["output_cost_per_token"]) * 1_000_000
+                input_price = float(
+                    model_data["input_cost_per_token"]) * 1_000_000
+                output_price = float(
+                    model_data["output_cost_per_token"]) * 1_000_000
                 pricing = {
                     "type": "one_million_tokens",
                     "input": self._format_price(input_price),
@@ -96,9 +102,9 @@ class ModelSource:
                 }
 
         return {
-            # Directory name uses -byop suffix (used by populate_from_iterator)
-            "name": f"{model_id}-byop",
-            # Offering name is the model_id (without -byop suffix)
+            # Directory name uses -byok suffix (used by populate_from_iterator)
+            "name": f"{model_id}-byok",
+            # Offering name is the model_id (without -byok suffix)
             "offering_name": model_id,
             # Offering fields
             "display_name": display_name,

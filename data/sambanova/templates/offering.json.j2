@@ -6,7 +6,7 @@
   "service_type": "{{ service_type }}",
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
-  "tags": ["byop"],
+  "tags": ["byok"],
   "details": {{ details | tojson }},
 {%- if payout_price %}
   "payout_price": {{ payout_price | tojson }},

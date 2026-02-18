@@ -11,7 +11,7 @@
   "service_type": "llm",
   "status": "ready",
   "tags": [
-    "byop"
+    "byok"
   ],
   "time_created": "2026-01-26T02:54:03.693Z",
   "upstream_access_interfaces": {
