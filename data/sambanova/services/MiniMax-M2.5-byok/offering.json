@@ -1,0 +1,38 @@
+{
+  "currency": "USD",
+  "description": "Minimax M2.5 language model",
+  "details": {
+    "contextLength": 1000000,
+    "litellm_provider": "minimax",
+    "max_input_tokens": 1000000,
+    "max_output_tokens": 8192,
+    "mode": "chat",
+    "object": "model",
+    "owned_by": "no-reply@sambanova.ai"
+  },
+  "display_name": "Minimax M2.5",
+  "name": "MiniMax-M2.5",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens Input/Output",
+    "input": "0.3",
+    "output": "1.2",
+    "reference": null,
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
+  "service_type": "llm",
+  "status": "ready",
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "time_created": "2026-02-21T02:56:34.769523Z",
+  "upstream_access_interfaces": {
+    "SambaNova API": {
+      "access_method": "http",
+      "base_url": "https://api.sambanova.ai/v1",
+      "rate_limits": []
+    }
+  }
+}
