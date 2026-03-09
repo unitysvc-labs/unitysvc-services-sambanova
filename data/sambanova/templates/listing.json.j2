@@ -9,7 +9,6 @@
     "Provider API": {
       "access_method": "http",
       "base_url": "${GATEWAY_BASE_URL}/p/{{ provider_name }}",
-      "api_key": "${ secrets.{{ env_api_key_name }} }",
       "routing_key": {"model": "{{ offering_name }}"}
     }
   },

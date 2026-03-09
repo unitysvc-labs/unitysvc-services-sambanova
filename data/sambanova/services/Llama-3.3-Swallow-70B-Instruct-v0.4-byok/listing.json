@@ -55,7 +55,6 @@
   "user_access_interfaces": {
     "Provider API": {
       "access_method": "http",
-      "api_key": "${ secrets.SAMBANOVA_API_KEY }",
       "base_url": "${GATEWAY_BASE_URL}/p/sambanova",
       "routing_key": {
         "model": "Llama-3.3-Swallow-70B-Instruct-v0.4"

@@ -15,6 +15,7 @@
     "{{ provider_display_name }} API": {
       "access_method": "http",
       "base_url": "{{ api_base_url }}",
+      "api_key": "${ customer_secrets.{{ env_api_key_name }} }",
       "rate_limits": []
     }
   }

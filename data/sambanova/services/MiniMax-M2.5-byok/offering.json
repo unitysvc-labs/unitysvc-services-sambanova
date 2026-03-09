@@ -32,6 +32,7 @@
     "SambaNova API": {
       "access_method": "http",
       "base_url": "https://api.sambanova.ai/v1",
+      "api_key": "${ customer_secrets.SAMBANOVA_API_KEY }",
       "rate_limits": []
     }
   }
