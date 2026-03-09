@@ -50,44 +50,16 @@
     }
   },
   "schema": "listing_v1",
-  "service_options": {
-    "ops_testing_parameters": {
-      "api_key": "${ secrets.SAMBANOVA_API_KEY }"
-    }
-  },
   "status": "ready",
   "time_created": "2026-02-22T05:34:04.429763Z",
   "user_access_interfaces": {
     "Provider API": {
       "access_method": "http",
+      "api_key": "${ secrets.SAMBANOVA_API_KEY }",
       "base_url": "${GATEWAY_BASE_URL}/p/sambanova",
       "routing_key": {
         "model": "DeepSeek-V3.1-cb"
       }
-    }
-  },
-  "user_parameters_schema": {
-    "description": "Access service with your own api-key",
-    "properties": {
-      "api_key": {
-        "default": "",
-        "title": "API Key (SAMBANOVA_API_KEY)",
-        "type": "string"
-      }
-    },
-    "required": [
-      "api_key"
-    ],
-    "title": "Be Your Own Provider",
-    "type": "object"
-  },
-  "user_parameters_ui_schema": {
-    "api_key": {
-      "ui:description": "Your API key will be securely stored as secret 'SAMBANOVA_API_KEY'",
-      "ui:options": {
-        "secret": "SAMBANOVA_API_KEY"
-      },
-      "ui:placeholder": "Enter your API key"
     }
   }
 }
