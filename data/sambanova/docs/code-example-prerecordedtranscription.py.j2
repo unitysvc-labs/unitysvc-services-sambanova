@@ -9,7 +9,7 @@ headers = {"Authorization": f"Bearer {UNITYSVC_API_KEY}"}
 
 files = {
     "file": ("obamacompressed.mp4", open("obamacompressed.mp4", "rb")),
-    "model": (None, "{{offering.name}}")
+    "model": (None, os.environ.get("MODEL", "{{offering.name}}"))
 }
 
 response = requests.post(url, headers=headers, files=files)

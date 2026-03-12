@@ -2,4 +2,4 @@ curl "$SERVICE_BASE_URL/audio/transcriptions" \
   -H "Authorization: Bearer $UNITYSVC_API_KEY" \
   -H "Content-Type: multipart/form-data" \
   -F file="@obamacompressed.mp4" \
-  -F model="{{offering.name}}"
+  -F model="${MODEL:-{{offering.name}}}"

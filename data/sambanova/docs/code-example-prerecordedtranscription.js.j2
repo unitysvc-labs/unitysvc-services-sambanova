@@ -10,7 +10,7 @@ async function main() {
 
   const form = new FormData();
   form.append("file", blob, filePath);
-  form.append("model", "{{offering.name}}");
+  form.append("model", process.env.MODEL || "{{offering.name}}");
 
   const response = await fetch(`${ENDPOINT}/audio/transcriptions`, {
     method: "POST",

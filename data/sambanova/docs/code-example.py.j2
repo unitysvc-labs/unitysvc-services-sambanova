@@ -7,7 +7,7 @@ client = OpenAI(
 )
 
 completion = client.chat.completions.create(
-    model="{{offering.name}}",
+    model=os.environ.get("MODEL", "{{offering.name}}"),
     messages=[
         {"role": "user", "content": "Say this is a test"}
     ]
