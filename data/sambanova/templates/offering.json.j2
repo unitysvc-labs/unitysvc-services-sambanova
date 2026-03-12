@@ -16,7 +16,8 @@
       "access_method": "http",
       "base_url": "{{ api_base_url }}",
       "api_key": "${ customer_secrets.{{ env_api_key_name }} }",
-      "rate_limits": []
+      "rate_limits": [],
+      "routing_key": {"model": "{{ offering_name }}"}
     }
   }
 }
