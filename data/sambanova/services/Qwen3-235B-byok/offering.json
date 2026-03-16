@@ -1,4 +1,7 @@
 {
+  "capabilities": [
+    "llm"
+  ],
   "currency": "USD",
   "description": "Qwen3 235B language model",
   "details": {
@@ -32,9 +35,12 @@
   "upstream_access_interfaces": {
     "SambaNova API": {
       "access_method": "http",
-      "base_url": "https://api.sambanova.ai/v1",
       "api_key": "${ customer_secrets.SAMBANOVA_API_KEY }",
-      "rate_limits": []
+      "base_url": "https://api.sambanova.ai/v1",
+      "rate_limits": [],
+      "routing_key": {
+        "model": "Qwen3-235B"
+      }
     }
   }
 }

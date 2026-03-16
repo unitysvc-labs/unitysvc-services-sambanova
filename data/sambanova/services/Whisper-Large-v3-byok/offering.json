@@ -9,7 +9,7 @@
   "name": "Whisper-Large-v3",
   "schema": "offering_v1",
   "service_type": "llm",
-  "status": "ready",
+  "status": "deprecated",
   "tags": [
     "ai",
     "gateway",
@@ -19,8 +19,8 @@
   "upstream_access_interfaces": {
     "SambaNova API": {
       "access_method": "http",
-      "base_url": "https://api.sambanova.ai/v1",
       "api_key": "${ customer_secrets.SAMBANOVA_API_KEY }",
+      "base_url": "https://api.sambanova.ai/v1",
       "rate_limits": []
     }
   }
