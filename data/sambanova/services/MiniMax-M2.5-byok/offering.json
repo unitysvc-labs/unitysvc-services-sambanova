@@ -42,7 +42,7 @@
   ],
 <<<<<<< HEAD
   "time_created": "2026-02-22T05:34:04.449638Z",
-  "upstream_access_interfaces": {
+  "upstream_access_config": {
     "SambaNova API": {
       "access_method": "http",
       "api_key": "${ customer_secrets.SAMBANOVA_API_KEY }",
@@ -53,7 +53,7 @@
       }
 =======
   "time_created": "2026-03-21T22:48:12.464390Z",
-  "upstream_access_interfaces": {
+  "upstream_access_config": {
     "SambaNova API": {
       "access_method": "http",
       "base_url": "https://api.sambanova.ai/v1",

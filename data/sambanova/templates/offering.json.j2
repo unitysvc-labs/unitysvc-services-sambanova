@@ -12,7 +12,7 @@
 {%- if payout_price %}
   "payout_price": {{ payout_price | tojson }},
 {%- endif %}
-  "upstream_access_interfaces": {
+  "upstream_access_config": {
     "{{ provider_display_name }} API": {
       "access_method": "http",
       "base_url": "{{ api_base_url }}",

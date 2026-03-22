@@ -16,7 +16,7 @@
     "byok"
   ],
   "time_created": "2026-02-22T05:34:04.457719Z",
-  "upstream_access_interfaces": {
+  "upstream_access_config": {
     "SambaNova API": {
       "access_method": "http",
       "api_key": "${ customer_secrets.SAMBANOVA_API_KEY }",
