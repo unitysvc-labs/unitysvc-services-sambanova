@@ -1,10 +1,7 @@
 {
-<<<<<<< HEAD
   "capabilities": [
     "llm"
   ],
-=======
->>>>>>> c7ef76b (Changes)
   "currency": "USD",
   "description": "Minimax M2.5 language model",
   "details": {
@@ -19,17 +16,10 @@
   "display_name": "Minimax M2.5",
   "name": "MiniMax-M2.5",
   "payout_price": {
-<<<<<<< HEAD
     "cached_input": "0",
     "description": "Service provider charges $0.3 / $1.2 / $0.03 per 1M input/output/cached tokens",
     "input": "0",
     "output": "0",
-=======
-    "description": "Pricing Per 1M Tokens Input/Output",
-    "input": "0.3",
-    "output": "1.2",
-    "reference": null,
->>>>>>> c7ef76b (Changes)
     "type": "one_million_tokens"
   },
   "schema": "offering_v1",
@@ -40,8 +30,7 @@
     "gateway",
     "byok"
   ],
-<<<<<<< HEAD
-  "time_created": "2026-02-22T05:34:04.449638Z",
+  "time_created": "2026-03-22T03:05:05.780163Z",
   "upstream_access_interfaces": {
     "SambaNova API": {
       "access_method": "http",
@@ -51,14 +40,6 @@
       "routing_key": {
         "model": "MiniMax-M2.5"
       }
-=======
-  "time_created": "2026-03-21T22:48:12.464390Z",
-  "upstream_access_interfaces": {
-    "SambaNova API": {
-      "access_method": "http",
-      "base_url": "https://api.sambanova.ai/v1",
-      "rate_limits": []
->>>>>>> c7ef76b (Changes)
     }
   }
 }
