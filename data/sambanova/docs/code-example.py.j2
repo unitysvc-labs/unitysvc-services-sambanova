@@ -1,16 +1,6 @@
 import requests
 import os
 
-<<<<<<< HEAD
-client = OpenAI(
-    api_key=os.environ.get("UNITYSVC_API_KEY"),
-    base_url=os.environ.get("SERVICE_BASE_URL")
-)
-
-completion = client.chat.completions.create(
-    model=os.environ.get("MODEL", "{{offering.name}}"),
-    messages=[
-=======
 url = f"{os.getenv('SERVICE_BASE_URL')}/chat/completions"
 
 headers = {
@@ -21,7 +11,6 @@ headers = {
 data = {
     "model": "{{offering.name}}",
     "messages": [
->>>>>>> c7ef76b (Changes)
         {"role": "user", "content": "Say this is a test"}
     ]
 }

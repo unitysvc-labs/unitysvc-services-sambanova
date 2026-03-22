@@ -17,7 +17,6 @@ headers = {
     "Content-Type": "application/json"
 }
 
-<<<<<<< HEAD
 # Create the chat completion request
 response = client.chat.completions.create(
     model=os.environ.get("MODEL", "{{offering.name}}"),
@@ -41,20 +40,6 @@ response = client.chat.completions.create(
                     "required": ["city"]
                 }
             }
-=======
-# Define the function you want the model to call
-functions = [
-    {
-        "name": "get_current_weather",
-        "description": "Get the current weather in a given location",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "location": {"type": "string", "description": "City and state, e.g. San Francisco, CA"},
-                "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]}
-            },
-            "required": ["location"]
->>>>>>> c7ef76b (Changes)
         }
     }
 ]

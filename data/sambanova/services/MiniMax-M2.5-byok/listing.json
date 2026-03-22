@@ -9,7 +9,6 @@
       "is_public": false,
       "mime_type": "bash"
     },
-<<<<<<< HEAD
     "Default request body": {
       "category": "request_template",
       "description": "Default request body for the playground",
@@ -18,8 +17,6 @@
       "is_public": true,
       "mime_type": "json"
     },
-=======
->>>>>>> c7ef76b (Changes)
     "How to use this model": {
       "category": "getting_started",
       "file_path": "../../docs/description.md",
@@ -61,7 +58,6 @@
     }
   },
   "list_price": {
-<<<<<<< HEAD
     "cached_input": "0",
     "description": "Service provider charges $0.3 / $1.2 / $0.03 per 1M input/output/cached tokens",
     "input": "0",
@@ -71,22 +67,6 @@
   "schema": "listing_v1",
   "status": "ready",
   "time_created": "2026-02-22T05:34:04.450276Z",
-=======
-    "description": "Pricing Per 1M Tokens Input/Output",
-    "input": "0.3",
-    "output": "1.2",
-    "reference": null,
-    "type": "one_million_tokens"
-  },
-  "schema": "listing_v1",
-  "service_options": {
-    "ops_testing_parameters": {
-      "api_key": "${ secrets.SAMBANOVA_API_KEY }"
-    }
-  },
-  "status": "ready",
-  "time_created": "2026-03-21T22:48:12.464906Z",
->>>>>>> c7ef76b (Changes)
   "user_access_interfaces": {
     "Provider API": {
       "access_method": "http",
@@ -95,32 +75,5 @@
         "model": "MiniMax-M2.5"
       }
     }
-<<<<<<< HEAD
-=======
-  },
-  "user_parameters_schema": {
-    "description": "Access service with your own api-key",
-    "properties": {
-      "api_key": {
-        "default": "",
-        "title": "API Key (SAMBANOVA_API_KEY)",
-        "type": "string"
-      }
-    },
-    "required": [
-      "api_key"
-    ],
-    "title": "Be Your Own Provider",
-    "type": "object"
-  },
-  "user_parameters_ui_schema": {
-    "api_key": {
-      "ui:description": "Your API key will be securely stored as secret 'SAMBANOVA_API_KEY'",
-      "ui:options": {
-        "secret": "SAMBANOVA_API_KEY"
-      },
-      "ui:placeholder": "Enter your API key"
-    }
->>>>>>> c7ef76b (Changes)
   }
 }
