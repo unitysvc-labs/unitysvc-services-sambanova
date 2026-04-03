@@ -1,0 +1,45 @@
+{
+  "capabilities": [
+    "llm"
+  ],
+  "currency": "USD",
+  "description": "Gemma 3 12B It language model",
+  "details": {
+    "contextLength": 131072,
+    "litellm_provider": "deepinfra",
+    "max_input_tokens": 131072,
+    "max_output_tokens": 131072,
+    "max_tokens": 131072,
+    "mode": "chat",
+    "object": "model",
+    "owned_by": "no-reply@sambanova.ai"
+  },
+  "display_name": "Gemma 3 12B It",
+  "name": "gemma-3-12b-it",
+  "payout_price": {
+    "description": "Service provider charges $0.05 / $0.1 per 1M input/output tokens",
+    "input": "0",
+    "output": "0",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
+  "service_type": "llm",
+  "status": "ready",
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "time_created": "2026-04-03T03:05:53.102932Z",
+  "upstream_access_config": {
+    "SambaNova API": {
+      "access_method": "http",
+      "api_key": "${ customer_secrets.SAMBANOVA_API_KEY }",
+      "base_url": "https://api.sambanova.ai/v1",
+      "rate_limits": [],
+      "routing_key": {
+        "model": "gemma-3-12b-it"
+      }
+    }
+  }
+}
