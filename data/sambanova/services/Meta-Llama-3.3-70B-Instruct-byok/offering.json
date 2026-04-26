@@ -5,14 +5,15 @@
   "currency": "USD",
   "description": "Meta Llama 3.3 70B Instruct language model",
   "details": {
-    "contextLength": 131072,
+    "context_length": 131072,
     "litellm_provider": "sambanova",
     "max_input_tokens": 131072,
     "max_output_tokens": 131072,
     "max_tokens": 131072,
     "mode": "chat",
     "object": "model",
-    "owned_by": "no-reply@sambanova.ai"
+    "owned_by": "no-reply@sambanova.ai",
+    "parameter_count": null
   },
   "display_name": "Meta Llama 3.3 70B Instruct",
   "name": "Meta-Llama-3.3-70B-Instruct",

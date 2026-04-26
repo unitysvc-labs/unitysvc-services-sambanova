@@ -5,14 +5,15 @@
   "currency": "USD",
   "description": "Deepseek V3.1 language model",
   "details": {
-    "contextLength": 163840,
+    "context_length": 163840,
     "litellm_provider": "deepinfra",
     "max_input_tokens": 163840,
     "max_output_tokens": 163840,
     "max_tokens": 163840,
     "mode": "chat",
     "object": "model",
-    "owned_by": "no-reply@sambanova.ai"
+    "owned_by": "no-reply@sambanova.ai",
+    "parameter_count": null
   },
   "display_name": "Deepseek V3.1",
   "name": "DeepSeek-V3.1",

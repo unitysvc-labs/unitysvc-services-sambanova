@@ -80,8 +80,6 @@ class ModelSource:
             ]:
                 if field in model_data:
                     details[field] = model_data[field]
-            if "max_input_tokens" in model_data:
-                details["contextLength"] = model_data["max_input_tokens"]
             if "litellm_provider" in model_data:
                 details["litellm_provider"] = model_data["litellm_provider"]
 
@@ -89,6 +87,20 @@ class ModelSource:
             details["owned_by"] = model_info["owned_by"]
         if "object" in model_info:
             details["object"] = model_info["object"]
+
+        # Canonical (snake_case) metadata required by the platform validator
+        # for LLM offerings.  Both keys must be present; null asserts
+        # "unknown".  Claude models are closed-source so parameter_count
+        # is permanently null per the canonical helper.  metadata_sources
+        # records provenance so reviewers can triage stale-value reports.
+        canonical = ModelDataLookup.get_canonical_metadata(
+            model_id,
+            fetcher=self.data_fetcher,
+        )
+        details["context_length"] = canonical["context_length"]
+        details["parameter_count"] = canonical["parameter_count"]
+        if canonical["sources"]:
+            details["metadata_sources"] = canonical["sources"]
 
         # Extract upstream pricing for description, but set prices to 0 for BYOK
         pricing = None

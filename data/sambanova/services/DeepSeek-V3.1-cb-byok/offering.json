@@ -5,8 +5,10 @@
   "currency": "USD",
   "description": "Deepseek V3.1 Cb language model",
   "details": {
+    "context_length": null,
     "object": "model",
-    "owned_by": "no-reply@sambanova.ai"
+    "owned_by": "no-reply@sambanova.ai",
+    "parameter_count": null
   },
   "display_name": "Deepseek V3.1 Cb",
   "name": "DeepSeek-V3.1-cb",
