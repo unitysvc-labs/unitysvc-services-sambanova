@@ -5,14 +5,15 @@
   "currency": "USD",
   "description": "Gemma 3 12B It language model",
   "details": {
-    "contextLength": 131072,
     "litellm_provider": "deepinfra",
     "max_input_tokens": 131072,
     "max_output_tokens": 131072,
     "max_tokens": 131072,
     "mode": "chat",
     "object": "model",
-    "owned_by": "no-reply@sambanova.ai"
+    "owned_by": "no-reply@sambanova.ai",
+    "context_length": 131072,
+    "parameter_count": null
   },
   "display_name": "Gemma 3 12B It",
   "name": "gemma-3-12b-it",

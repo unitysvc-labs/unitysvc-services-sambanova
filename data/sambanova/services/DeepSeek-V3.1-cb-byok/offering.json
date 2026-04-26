@@ -6,7 +6,9 @@
   "description": "Deepseek V3.1 Cb language model",
   "details": {
     "object": "model",
-    "owned_by": "no-reply@sambanova.ai"
+    "owned_by": "no-reply@sambanova.ai",
+    "context_length": null,
+    "parameter_count": null
   },
   "display_name": "Deepseek V3.1 Cb",
   "name": "DeepSeek-V3.1-cb",

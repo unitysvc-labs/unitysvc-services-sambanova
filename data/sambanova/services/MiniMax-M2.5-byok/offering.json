@@ -8,7 +8,12 @@
     "litellm_provider": "baseten",
     "mode": "chat",
     "object": "model",
-    "owned_by": "no-reply@sambanova.ai"
+    "owned_by": "no-reply@sambanova.ai",
+    "metadata_sources": {
+      "context_length": "openrouter"
+    },
+    "context_length": 196608,
+    "parameter_count": null
   },
   "display_name": "Minimax M2.5",
   "name": "MiniMax-M2.5",
