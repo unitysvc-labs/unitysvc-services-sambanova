@@ -2,10 +2,7 @@
   "currency": "USD",
   "documents": {
     "Connectivity test": {
-      "$doc_preset": {
-        "is_public": false,
-        "name": "api_connectivity"
-      }
+      "$doc_preset": "api_connectivity"
     },
     "Default request body": {
       "$doc_preset": "llm_request_template"
