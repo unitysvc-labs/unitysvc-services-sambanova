@@ -1,5 +1,5 @@
 const UNITYSVC_API_KEY = process.env.UNITYSVC_API_KEY;
-const ENDPOINT = process.env.SERVICE_BASE_URL;
+const ENDPOINT = "{{ service_base_url }}";
 
 async function main() {
   const filePath = "obamacompressed.mp4";
@@ -10,7 +10,7 @@ async function main() {
 
   const form = new FormData();
   form.append("file", blob, filePath);
-  form.append("model", process.env.MODEL || "{{offering.name}}");
+  form.append("model", "{{ routing_key.model }}");
 
   const response = await fetch(`${ENDPOINT}/audio/transcriptions`, {
     method: "POST",

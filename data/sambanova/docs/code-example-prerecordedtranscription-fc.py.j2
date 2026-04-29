@@ -10,7 +10,7 @@ def transcribe_file(path: str):
 
     files = {
         "file": (path, open(path, "rb")),
-        "model": (None, os.environ.get("MODEL", "{{offering.name}}"))
+        "model": (None, "{{ routing_key.model }}")
     }
 
     r = requests.post(url, headers=headers, files=files)
