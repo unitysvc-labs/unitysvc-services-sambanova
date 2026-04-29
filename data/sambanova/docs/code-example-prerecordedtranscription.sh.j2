@@ -1,5 +1,0 @@
-curl "{{ service_base_url }}/audio/transcriptions" \
-  -H "Authorization: Bearer $UNITYSVC_API_KEY" \
-  -H "Content-Type: multipart/form-data" \
-  -F file="@obamacompressed.mp4" \
-  -F model="{{ routing_key.model }}}}"
