@@ -10,6 +10,9 @@
     "max_input_tokens": 131072,
     "max_output_tokens": 131072,
     "max_tokens": 131072,
+    "metadata_sources": {
+      "context_length": "litellm"
+    },
     "mode": "chat",
     "object": "model",
     "owned_by": "no-reply@sambanova.ai",

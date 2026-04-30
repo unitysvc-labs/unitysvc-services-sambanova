@@ -10,6 +10,9 @@
     "max_input_tokens": 163840,
     "max_output_tokens": 16384,
     "max_tokens": 16384,
+    "metadata_sources": {
+      "context_length": "openrouter"
+    },
     "mode": "chat",
     "object": "model",
     "owned_by": "no-reply@sambanova.ai",
