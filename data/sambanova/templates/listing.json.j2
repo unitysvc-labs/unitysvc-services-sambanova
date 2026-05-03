@@ -20,12 +20,13 @@
     "How to use this model": {
       "$doc_preset": "llm_description"
     },
+{#- Per-shape dispatch.  Function-calling examples only attach to chat
+    models that LiteLLM marks as tool-capable AND that aren't on the
+    upstream-truth denylist; embedding / transcription endpoints reject
+    ``tools`` outright with 400.  Same gating pattern as Nebius. -#}
 {%- if is_embedding %}
     "Python code example": {
       "$doc_preset": "llm_code_example_embed_requests"
-    },
-    "Python function calling code example": {
-      "$doc_preset": "llm_code_example_fc_requests"
     },
     "JavaScript code example": {
       "$doc_preset": "llm_code_example_embed_javascript"
@@ -36,9 +37,6 @@
 {%- elif is_transcription %}
     "Python code example": {
       "$doc_preset": "llm_code_example_transcription_requests"
-    },
-    "Python function calling code example": {
-      "$doc_preset": "llm_code_example_fc_requests"
     },
     "JavaScript code example": {
       "category": "code_example",
@@ -60,9 +58,11 @@
     "Python code example": {
       "$doc_preset": "llm_code_example_openai"
     },
+{%- if supports_function_calling %}
     "Python function calling code example": {
       "$doc_preset": "llm_code_example_fc_requests"
     },
+{%- endif %}
     "JavaScript code example": {
       "$doc_preset": "llm_code_example_javascript"
     },

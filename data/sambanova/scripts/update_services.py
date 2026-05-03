@@ -83,6 +83,23 @@ class ModelSource:
             if "litellm_provider" in model_data:
                 details["litellm_provider"] = model_data["litellm_provider"]
 
+        # Function-calling capability.  ``ModelDataLookup`` returns the
+        # first ``*/<model_id>`` row it sees, which can be a non-sambanova
+        # provider with optimistic flags (e.g. gemma's deepinfra entry
+        # claims tool support but SambaNova's hosted gemma rejects
+        # ``tools`` with 400).  Prefer the explicit ``sambanova/`` row,
+        # then apply a denylist for models LiteLLM-elsewhere marks
+        # tool-capable that SambaNova nonetheless rejects.  Drop entries
+        # when SambaNova adds upstream support.  Same pattern as Nebius.
+        sambanova_specific = (self.litellm_data or {}).get(
+            f"sambanova/{model_id}", model_data
+        )
+        supports_function_calling = bool(
+            (sambanova_specific or {}).get("supports_function_calling")
+        )
+        if model_id in self._FC_DENYLIST:
+            supports_function_calling = False
+
         if "owned_by" in model_info:
             details["owned_by"] = model_info["owned_by"]
         if "object" in model_info:
@@ -150,12 +167,24 @@ class ModelSource:
             "payout_price": pricing,
             # Listing fields
             "list_price": pricing,
+            "supports_function_calling": supports_function_calling,
             # Provider config (for templates)
             "provider_name": PROVIDER_NAME,
             "provider_display_name": PROVIDER_DISPLAY_NAME,
             "api_base_url": API_BASE_URL,
             "env_api_key_name": ENV_API_KEY_NAME,
         }
+
+    # Models LiteLLM marks as tool-capable but SambaNova's chat-completion
+    # endpoint rejects with 400 when ``tools`` is sent.  Empirically
+    # discovered — drop entries when SambaNova adds upstream support.
+    # ``DeepSeek-V3.1-cb`` (continuous-batch variant of V3.1) is gated
+    # automatically by the ``sambanova/<model>``-first lookup since
+    # LiteLLM has no entry for it; kept here as documentation in case a
+    # future LiteLLM release adds an optimistic row.
+    _FC_DENYLIST = frozenset({
+        "DeepSeek-V3.1-cb",
+    })
 
     def _determine_service_type(self, model_id: str) -> str:
         model_lower = model_id.lower()
