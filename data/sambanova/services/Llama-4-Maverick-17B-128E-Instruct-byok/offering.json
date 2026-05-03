@@ -11,12 +11,13 @@
     "max_output_tokens": 131072,
     "max_tokens": 131072,
     "metadata_sources": {
-      "context_length": "litellm"
+      "context_length": "litellm",
+      "parameter_count": "huggingface_safetensors"
     },
     "mode": "chat",
     "object": "model",
     "owned_by": "no-reply@sambanova.ai",
-    "parameter_count": null
+    "parameter_count": 401583781376
   },
   "display_name": "Llama 4 Maverick 17B 128E Instruct",
   "name": "Llama-4-Maverick-17B-128E-Instruct",
