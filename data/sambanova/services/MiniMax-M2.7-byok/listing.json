@@ -1,0 +1,35 @@
+{
+  "currency": "USD",
+  "documents": {
+    "Connectivity test": {
+      "$doc_preset": "llm_connectivity"
+    },
+    "Default request body": {
+      "$doc_preset": "llm_request_template"
+    },
+    "How to use this model": {
+      "$doc_preset": "llm_description"
+    },
+    "JavaScript code example": {
+      "$doc_preset": "llm_code_example_javascript"
+    },
+    "Python code example": {
+      "$doc_preset": "llm_code_example_openai"
+    },
+    "cURL code example": {
+      "$doc_preset": "llm_code_example_shell"
+    }
+  },
+  "schema": "listing_v1",
+  "status": "ready",
+  "time_created": "2026-05-05T04:58:29.861604Z",
+  "user_access_interfaces": {
+    "provider_api": {
+      "access_method": "http",
+      "base_url": "${API_GATEWAY_BASE_URL}/p/sambanova",
+      "routing_key": {
+        "model": "MiniMax-M2.7"
+      }
+    }
+  }
+}
