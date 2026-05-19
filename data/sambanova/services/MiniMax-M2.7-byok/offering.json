@@ -5,16 +5,27 @@
   "currency": "USD",
   "description": "Minimax M2.7 language model",
   "details": {
-    "context_length": 196608,
+    "context_length": 204800,
+    "litellm_provider": "sambanova",
+    "max_input_tokens": 204800,
+    "max_output_tokens": 131072,
+    "max_tokens": 131072,
     "metadata_sources": {
       "context_length": "openrouter"
     },
+    "mode": "chat",
     "object": "model",
     "owned_by": "no-reply@sambanova.ai",
     "parameter_count": null
   },
   "display_name": "Minimax M2.7",
   "name": "MiniMax-M2.7",
+  "payout_price": {
+    "description": "Service provider charges $0.3 / $1.2 per 1M input/output tokens",
+    "input": "0",
+    "output": "0",
+    "type": "one_million_tokens"
+  },
   "schema": "offering_v1",
   "service_type": "llm",
   "status": "ready",
