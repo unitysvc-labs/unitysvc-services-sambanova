@@ -32,7 +32,7 @@
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/p/sambanova",
+      "base_url": "${API_GATEWAY_BASE_URL}/sambanova",
       "routing_key": {
         "model": "MiniMax-M2.5"
       }
