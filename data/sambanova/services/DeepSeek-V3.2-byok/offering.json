@@ -5,7 +5,7 @@
   "currency": "USD",
   "description": "Deepseek V3.2 language model",
   "details": {
-    "context_length": 163840,
+    "context_length": 131072,
     "litellm_provider": "gmi",
     "max_input_tokens": 163840,
     "max_output_tokens": 16384,
