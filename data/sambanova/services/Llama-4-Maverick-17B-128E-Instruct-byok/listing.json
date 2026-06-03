@@ -29,13 +29,14 @@
     "output": "0",
     "type": "one_million_tokens"
   },
+  "name": "sambanova/Llama-4-Maverick-17B-128E-Instruct",
   "schema": "listing_v1",
   "status": "ready",
   "time_created": "2026-02-22T05:34:04.440393Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/sambanova",
+      "base_url": "${API_GATEWAY_BASE_URL}/{{ service_name }}",
       "routing_key": {
         "model": "Llama-4-Maverick-17B-128E-Instruct"
       }
