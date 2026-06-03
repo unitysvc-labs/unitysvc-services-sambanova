@@ -20,13 +20,14 @@
       "$doc_preset": "llm_code_example_shell"
     }
   },
+  "name": "sambanova/DeepSeek-V3.1-cb",
   "schema": "listing_v1",
   "status": "ready",
   "time_created": "2026-02-22T05:34:04.429763Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/sambanova",
+      "base_url": "${API_GATEWAY_BASE_URL}/{{ service_name }}",
       "routing_key": {
         "model": "DeepSeek-V3.1-cb"
       }

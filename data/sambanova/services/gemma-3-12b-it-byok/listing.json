@@ -29,13 +29,14 @@
     "output": "0",
     "type": "one_million_tokens"
   },
+  "name": "sambanova/gemma-3-12b-it",
   "schema": "listing_v1",
   "status": "ready",
   "time_created": "2026-04-03T03:05:53.103118Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/sambanova",
+      "base_url": "${API_GATEWAY_BASE_URL}/{{ service_name }}",
       "routing_key": {
         "model": "gemma-3-12b-it"
       }
