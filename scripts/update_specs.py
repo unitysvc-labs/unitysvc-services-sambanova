@@ -154,9 +154,10 @@ class ModelSource:
                     pricing["description"] = price_desc
 
         return {
-            # Directory name uses -byok suffix (used by populate_from_iterator)
-            "name": f"{model_id}-byok",
-            # Offering name is the model_id (without -byok suffix)
+            # Folder path under specs/ == listing.name == "<provider>/<model_id>"
+            # (flat layout, #1263). populate_from_iterator preserves the slash.
+            "name": f"{PROVIDER_NAME}/{model_id}",
+            # Offering name is the bare upstream model_id
             "offering_name": model_id,
             # Offering fields
             "display_name": display_name,
@@ -213,7 +214,7 @@ def main():
     populate_from_iterator(
         iterator=source.iter_models(),
         templates_dir=SCRIPT_DIR.parent / "templates",
-        output_dir=SCRIPT_DIR.parent / "services",
+        output_dir=SCRIPT_DIR.parent / "specs",
     )
 
 
