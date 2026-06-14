@@ -3,7 +3,6 @@
 {%- set is_chat = not (is_embedding or is_transcription) -%}
 
 {
-  "schema": "listing_v1",
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
   {#- name = <provider>/<bare> per the platform service-naming convention
