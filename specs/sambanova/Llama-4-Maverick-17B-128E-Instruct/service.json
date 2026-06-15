@@ -1,3 +1,7 @@
 {
-  "service_id": "6f726cfb-b1b4-4b95-a22b-c7557b7516fa"
+  "display_name": "Llama 4 Maverick 17B 128E Instruct",
+  "name": "sambanova/Llama-4-Maverick-17B-128E-Instruct",
+  "service_id": "6f726cfb-b1b4-4b95-a22b-c7557b7516fa",
+  "status": "updated",
+  "time_created": "2026-06-06T15:46:10.716580Z"
 }

@@ -1,3 +1,7 @@
 {
-  "service_id": "fd298ab8-e685-45d6-8f8a-fe45b120b35d"
+  "display_name": "Minimax M2.5",
+  "name": "sambanova/MiniMax-M2.5",
+  "service_id": "fd298ab8-e685-45d6-8f8a-fe45b120b35d",
+  "status": "updated",
+  "time_created": "2026-06-06T15:46:12.137553Z"
 }
