@@ -1,0 +1,24 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.sambanova.ai/v1",
+    "description": "Gemma 4 31B It language model",
+    "details": {
+      "context_length": 262144,
+      "metadata_sources": {
+        "context_length": "openrouter"
+      },
+      "object": "model",
+      "owned_by": "no-reply@sambanova.ai",
+      "parameter_count": null
+    },
+    "display_name": "Gemma 4 31B It",
+    "env_api_key_name": "SAMBANOVA_API_KEY",
+    "list_price": null,
+    "offering_name": "gemma-4-31B-it",
+    "payout_price": null,
+    "provider_display_name": "SambaNova",
+    "service_type": "llm",
+    "status": "ready",
+    "supports_function_calling": false
+  }
+}
