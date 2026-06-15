@@ -1,0 +1,39 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.sambanova.ai/v1",
+    "description": "Gpt Oss 120B language model",
+    "details": {
+      "context_length": 131072,
+      "litellm_provider": "azure_ai",
+      "max_input_tokens": 131072,
+      "max_output_tokens": 131072,
+      "max_tokens": 131072,
+      "metadata_sources": {
+        "context_length": "openrouter"
+      },
+      "mode": "chat",
+      "object": "model",
+      "owned_by": "no-reply@sambanova.ai",
+      "parameter_count": null
+    },
+    "display_name": "Gpt Oss 120B",
+    "env_api_key_name": "SAMBANOVA_API_KEY",
+    "list_price": {
+      "description": "Service provider charges $0.15 / $0.6 per 1M input/output tokens",
+      "input": "0",
+      "output": "0",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "gpt-oss-120b",
+    "payout_price": {
+      "description": "Service provider charges $0.15 / $0.6 per 1M input/output tokens",
+      "input": "0",
+      "output": "0",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "SambaNova",
+    "service_type": "llm",
+    "status": "ready",
+    "supports_function_calling": true
+  }
+}

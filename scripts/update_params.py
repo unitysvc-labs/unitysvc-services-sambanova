@@ -15,7 +15,7 @@ from typing import Iterator
 import httpx
 
 from unitysvc_sellers.model_data import ModelDataFetcher, ModelDataLookup
-from unitysvc_sellers.template_populate import populate_from_iterator
+from unitysvc_sellers.params_render import write_params_from_iterator
 
 # Provider Configuration
 PROVIDER_NAME = "sambanova"
@@ -211,9 +211,8 @@ def main():
         sys.exit(1)
 
     source = ModelSource(api_key)
-    populate_from_iterator(
+    write_params_from_iterator(
         iterator=source.iter_models(),
-        templates_dir=SCRIPT_DIR.parent / "templates",
         output_dir=SCRIPT_DIR.parent / "specs",
     )
 
