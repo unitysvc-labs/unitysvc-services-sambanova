@@ -5,7 +5,7 @@
     "details": {
       "context_length": 204800,
       "litellm_provider": "sambanova",
-      "max_input_tokens": 204800,
+      "max_input_tokens": 196608,
       "max_output_tokens": 131072,
       "max_tokens": 131072,
       "metadata_sources": {
@@ -19,14 +19,14 @@
     "display_name": "Minimax M2.7",
     "env_api_key_name": "SAMBANOVA_API_KEY",
     "list_price": {
-      "description": "Service provider charges $0.3 / $1.2 per 1M input/output tokens",
+      "description": "Service provider charges $0.6 / $2.4 per 1M input/output tokens",
       "input": "0",
       "output": "0",
       "type": "one_million_tokens"
     },
     "offering_name": "MiniMax-M2.7",
     "payout_price": {
-      "description": "Service provider charges $0.3 / $1.2 per 1M input/output tokens",
+      "description": "Service provider charges $0.6 / $2.4 per 1M input/output tokens",
       "input": "0",
       "output": "0",
       "type": "one_million_tokens"
