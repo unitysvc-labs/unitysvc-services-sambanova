@@ -4,18 +4,34 @@
     "description": "Gemma 4 31B It language model",
     "details": {
       "context_length": 262144,
+      "litellm_provider": "sambanova",
+      "max_input_tokens": 131072,
+      "max_output_tokens": 131072,
+      "max_tokens": 131072,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
+      "mode": "chat",
       "object": "model",
       "owned_by": "no-reply@sambanova.ai",
-      "parameter_count": null
+      "parameter_count": 31273088876
     },
     "display_name": "Gemma 4 31B It",
     "env_api_key_name": "SAMBANOVA_API_KEY",
-    "list_price": null,
+    "list_price": {
+      "description": "Service provider charges $0.38 / $1.15 per 1M input/output tokens",
+      "input": "0",
+      "output": "0",
+      "type": "one_million_tokens"
+    },
     "offering_name": "gemma-4-31B-it",
-    "payout_price": null,
+    "payout_price": {
+      "description": "Service provider charges $0.38 / $1.15 per 1M input/output tokens",
+      "input": "0",
+      "output": "0",
+      "type": "one_million_tokens"
+    },
     "provider_display_name": "SambaNova",
     "service_type": "llm",
     "status": "ready",
