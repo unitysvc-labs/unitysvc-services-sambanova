@@ -2,7 +2,12 @@
   "currency": "USD",
   "documents": {
     "Connectivity test": {
-      "$doc_preset": "llm_connectivity"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_connectivity"
+      }
     },
     "Default request body": {
       "$doc_preset": "llm_request_template"
@@ -11,16 +16,36 @@
       "$doc_preset": "llm_description"
     },
     "JavaScript code example": {
-      "$doc_preset": "llm_code_example_javascript"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_code_example_javascript"
+      }
     },
     "Python code example": {
-      "$doc_preset": "llm_code_example_openai"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_code_example_openai"
+      }
     },
     "Python function calling code example": {
-      "$doc_preset": "llm_code_example_fc_requests"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_code_example_fc_requests"
+      }
     },
     "cURL code example": {
-      "$doc_preset": "llm_code_example_shell"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_code_example_shell"
+      }
     }
   },
   "list_price": {
