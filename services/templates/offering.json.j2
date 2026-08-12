@@ -1,23 +1,33 @@
 {
   "name": "{{ offering_name }}",
   "display_name": "{{ display_name }}",
-  "description": {{ description | tojson }},
+{#- 3-paragraph marketplace description (the validator requires >=2 paragraphs;
+    the populate script emits a one-line brief). Teaser + detail + how-to. #}
+{%- set _brief = description | default(display_name ~ ' — a ' ~ service_type ~ ' model served by ' ~ provider_display_name, true) %}
+{%- set _ctx = ' with a ' ~ details.context_length ~ '-token context window' if details.context_length else '' %}
+{%- set _detail = display_name ~ ' is served by ' ~ provider_display_name ~ ' over an OpenAI-compatible API' ~ _ctx ~ '. Requests are proxied through the UnitySVC gateway; you bring your own ' ~ provider_display_name ~ ' API key, so token usage is billed by ' ~ provider_display_name ~ ' directly and the service is free through UnitySVC.' %}
+{%- set _howto = 'Reach it through the UnitySVC gateway with your own ' ~ provider_display_name ~ ' API key (the byok channel). The endpoint accepts both OpenAI Chat Completions and Anthropic Messages requests — the gateway auto-detects the dialect, translates to the upstream, and returns the response in the format you sent. See the code examples for both styles.' %}
+{%- set _description = _brief ~ '\n\n' ~ _detail ~ '\n\n' ~ _howto %}
+  "description": {{ _description | tojson }},
   "service_type": "{{ service_type }}",
   "capabilities": ["{{ service_type }}"],
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
   "tags": ["ai", "gateway", "byok"],
-  "details": {{ details | tojson }},
+  "details": {{ dict(details or {}, input_formats=["openai", "anthropic"], output_formats=["openai_response", "anthropic_response"]) | tojson }},
 {%- if payout_price %}
   "payout_price": {{ payout_price | tojson }},
 {%- endif %}
   "upstream_access_config": {
-    "{{ provider_display_name }} API": {
+    "byok": {
       "access_method": "http",
       "base_url": "{{ api_base_url | replace('/v1', '') }}",
       "api_key": "${ customer_secrets.{{ env_api_key_name }} }",
       "rate_limits": [],
-      "routing_key": {"model": "{{ offering_name }}"}
+      "routing_key": {"model": "{{ offering_name }}"},
+      "request_transformer": {
+        "llm_translator": "anthropic_to_openai"
+      }
     }
   }
 }
