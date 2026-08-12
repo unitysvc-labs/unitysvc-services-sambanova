@@ -3,7 +3,7 @@
     "api_base_url": "https://api.sambanova.ai/v1",
     "description": "Deepseek V3.2 language model",
     "details": {
-      "context_length": 131072,
+      "context_length": 163840,
       "litellm_provider": "gmi",
       "max_input_tokens": 163840,
       "max_output_tokens": 16384,
