@@ -19,10 +19,9 @@
     "display_name": "Meta Llama 3.3 70B Instruct",
     "env_api_key_name": "SAMBANOVA_API_KEY",
     "list_price": {
-      "description": "Service provider charges $0.6 / $1.2 per 1M input/output tokens",
-      "input": "0",
-      "output": "0",
-      "type": "one_million_tokens"
+      "description": "Free (BYOK)",
+      "price": "0",
+      "type": "constant"
     },
     "offering_name": "Meta-Llama-3.3-70B-Instruct",
     "payout_price": {
@@ -31,6 +30,7 @@
       "output": "0",
       "type": "one_million_tokens"
     },
+    "pricing_note": "$0.6 / $1.2 per 1M input/output tokens",
     "provider_display_name": "SambaNova",
     "service_type": "llm",
     "status": "ready",
