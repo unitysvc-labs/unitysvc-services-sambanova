@@ -119,39 +119,29 @@ class ModelSource:
         if canonical["sources"]:
             details["metadata_sources"] = canonical["sources"]
 
-        # Extract upstream pricing for description, but set prices to 0 for BYOK
-        pricing = None
-        if model_data:
-            if "input_cost_per_token" in model_data and "output_cost_per_token" in model_data:
-                input_price = round(float(
-                    model_data["input_cost_per_token"]) * 1_000_000, 4)
-                output_price = round(float(
-                    model_data["output_cost_per_token"]) * 1_000_000, 4)
-                price_desc = (
-                    f"Service provider charges "
+        # BYOK: the customer's own key pays the provider directly, so the service
+        # is free through the gateway. Keep the price cell short ("Free (BYOK)");
+        # the provider's reference rates go into pricing_note, which the template
+        # renders as the closing paragraph of the offering description.
+        pricing = {"type": "constant", "price": "0", "description": "Free (BYOK)"}
+        pricing_note = None
+        if model_data and "input_cost_per_token" in model_data and "output_cost_per_token" in model_data:
+            input_price = round(float(model_data["input_cost_per_token"]) * 1_000_000, 4)
+            output_price = round(float(model_data["output_cost_per_token"]) * 1_000_000, 4)
+            if "cache_read_input_token_cost" in model_data:
+                cached_price = round(float(model_data["cache_read_input_token_cost"]) * 1_000_000, 4)
+                pricing_note = (
+                    f"${self._format_price(input_price)} / "
+                    f"${self._format_price(output_price)} / "
+                    f"${self._format_price(cached_price)} "
+                    f"per 1M input/output/cached tokens"
+                )
+            else:
+                pricing_note = (
                     f"${self._format_price(input_price)} / "
                     f"${self._format_price(output_price)} "
                     f"per 1M input/output tokens"
                 )
-                pricing = {
-                    "type": "one_million_tokens",
-                    "input": "0",
-                    "output": "0",
-                    "description": price_desc,
-                }
-                # Include cached_input if available
-                if "cache_read_input_token_cost" in model_data:
-                    cached_price = round(float(
-                        model_data["cache_read_input_token_cost"]) * 1_000_000, 4)
-                    pricing["cached_input"] = "0"
-                    price_desc = (
-                        f"Service provider charges "
-                        f"${self._format_price(input_price)} / "
-                        f"${self._format_price(output_price)} / "
-                        f"${self._format_price(cached_price)} "
-                        f"per 1M input/output/cached tokens"
-                    )
-                    pricing["description"] = price_desc
 
         return {
             # Folder path under specs/ == listing.name == "<provider>/<model_id>"
@@ -168,6 +158,8 @@ class ModelSource:
             "payout_price": pricing,
             # Listing fields
             "list_price": pricing,
+            # Reference rates for the BYOK pricing paragraph (template-rendered)
+            "pricing_note": pricing_note,
             "supports_function_calling": supports_function_calling,
             # Provider config (for templates)
             "provider_name": PROVIDER_NAME,
