@@ -1,8 +1,9 @@
 {
   "name": "{{ offering_name }}",
   "display_name": "{{ display_name }}",
-{#- 3-paragraph marketplace description (the validator requires >=2 paragraphs;
-    the populate script emits a one-line brief). Teaser + detail + how-to. #}
+{#- Marketplace copy: `summary` is the collapsed teaser (<= 200 chars, required
+    since unitysvc#1838); `description` is the long-form detail + how-to.
+    The populate script emits a one-line brief used as the teaser base. #}
 {%- set _base = description | default(display_name ~ ' — a ' ~ service_type ~ ' model served by ' ~ provider_display_name, true) %}
 {%- set _dual = ' — callable in both OpenAI and Anthropic API styles through the UnitySVC gateway.' %}
 {%- set _brief = (_base ~ _dual) if ((_base | length) + (_dual | length) < 195) else _base %}
@@ -15,7 +16,8 @@
 {%- set _interop = 'One endpoint, either dialect — send an OpenAI Chat Completions or an Anthropic Messages request and the gateway auto-detects the format, translates it for the upstream, and replies in the style you sent. Because every model on UnitySVC speaks both dialects, they are interchangeable behind a single client: swap providers without touching your code, and combine them with the gateway composition primitives — group (/g/), broadcast (/b/), chain (/c/) and failover (/f/).' %}
 {#- Closing BYOK pricing paragraph: the price cell reads "Free (BYOK)"; the provider's reference rates live here where there is room. #}
 {%- set _byok = 'Pricing — this is a bring-your-own-key (BYOK) service, so it is free through the UnitySVC gateway; usage is billed by ' ~ provider_display_name ~ ' directly' ~ (' at ' ~ pricing_note if pricing_note else '') ~ '.' %}
-{%- set _description = _brief ~ '\n\n' ~ _detail ~ '\n\n' ~ _howto ~ '\n\n' ~ _interop ~ '\n\n' ~ _byok %}
+{%- set _description = _detail ~ '\n\n' ~ _howto ~ '\n\n' ~ _interop ~ '\n\n' ~ _byok %}
+  "summary": {{ _brief[:200] | tojson }},
   "description": {{ _description | tojson }},
   "service_type": "{{ service_type }}",
   "capabilities": ["{{ service_type }}"],
