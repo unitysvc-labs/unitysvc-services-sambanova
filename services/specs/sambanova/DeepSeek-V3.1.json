@@ -25,11 +25,9 @@
     },
     "offering_name": "DeepSeek-V3.1",
     "payout_price": {
-      "cached_input": "0",
-      "description": "Service provider charges $0.27 / $1 / $0.216 per 1M input/output/cached tokens",
-      "input": "0",
-      "output": "0",
-      "type": "one_million_tokens"
+      "description": "Free (BYOK)",
+      "price": "0",
+      "type": "constant"
     },
     "pricing_note": "$0.27 / $1 / $0.216 per 1M input/output/cached tokens",
     "provider_display_name": "SambaNova",
