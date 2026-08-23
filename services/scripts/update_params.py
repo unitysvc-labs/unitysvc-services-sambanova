@@ -120,9 +120,11 @@ class ModelSource:
             details["metadata_sources"] = canonical["sources"]
 
         # BYOK: the customer's own key pays the provider directly, so the service
-        # is free through the gateway. Keep the price cell short ("Free (BYOK)");
-        # the provider's reference rates go into pricing_note, which the template
-        # renders as the closing paragraph of the offering description.
+        # is free through the gateway. This plain description is what payout_price
+        # keeps (seller-facing). The customer-facing listing cell is composed in
+        # listing.json.j2 from pricing_note, into the
+        # "<amount> ~ <PILL> | <note>" grammar; do not build it here, since this
+        # dict feeds payout_price too.
         pricing = {"type": "constant", "price": "0", "description": "Free (BYOK)"}
         pricing_note = None
         if model_data and "input_cost_per_token" in model_data and "output_cost_per_token" in model_data:
