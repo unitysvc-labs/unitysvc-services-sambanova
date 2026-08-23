@@ -33,7 +33,10 @@
   "summary": {{ _brief[:200] | tojson }},
   "description": {{ _description | tojson }},
   "service_type": "{{ service_type }}",
-  "capabilities": ["{{ service_type }}"],
+  {#- Platform capability vocabulary (unitysvc docs/capabilities.yml): every
+     model here is a chat service — a conversation in, generated text out.
+     `service_type` stays as-is; only the capability moves. -#}
+  "capabilities": ["chat"],
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
   "tags": ["ai", "gateway", "byok"],
