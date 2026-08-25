@@ -4,10 +4,10 @@
     "description": "Deepseek V3.2 language model",
     "details": {
       "context_length": 163840,
-      "litellm_provider": "gmi",
+      "litellm_provider": "azure_ai",
       "max_input_tokens": 163840,
-      "max_output_tokens": 16384,
-      "max_tokens": 16384,
+      "max_output_tokens": 163840,
+      "max_tokens": 163840,
       "metadata_sources": {
         "context_length": "openrouter"
       },
@@ -25,12 +25,11 @@
     },
     "offering_name": "DeepSeek-V3.2",
     "payout_price": {
-      "description": "Service provider charges $0.28 / $0.4 per 1M input/output tokens",
-      "input": "0",
-      "output": "0",
-      "type": "one_million_tokens"
+      "description": "Free (BYOK)",
+      "price": "0",
+      "type": "constant"
     },
-    "pricing_note": "$0.28 / $0.4 per 1M input/output tokens",
+    "pricing_note": "$0.62 / $1.85 / $0.31 per 1M input/output/cached tokens",
     "provider_display_name": "SambaNova",
     "service_type": "llm",
     "status": "ready",
