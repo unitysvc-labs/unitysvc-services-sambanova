@@ -35,27 +35,36 @@
       "routing_key": {"model": "{{ offering_name }}"}
     }
   },
+  {#- Every document below is DERIVED from what this service is: its
+      capability and the request dialects it accepts (unitysvc/unitysvc#1899).
+      The catalog-wide shape lives in unitysvc-data's `llm_example_collection`
+      preset, so a new example flavour or a fixed preset reaches this repo on
+      the next release rather than through a PR here.
+
+      A collection covers ONE capability, so this repo emits one per shape —
+      the same three-way dispatch the hand-written block had. The capability
+      now also picks the CONNECTIVITY probe: previously every shape got the
+      chat probe (`llm_connectivity`), so an embedding or transcription service
+      was proved by a /chat/completions call it does not serve.
+
+      The two SambaNova transcription examples are SIBLINGS of the sentinel:
+      `expand_presets` merges siblings over the expanded mapping, so a listing
+      keeps documents the collection cannot derive — these are repo-local
+      files, not presets. -#}
   "documents": {
-    "How to use this model": {
-      "$doc_preset": "llm_description"
-    },
-{#- Per-shape dispatch.  Function-calling examples only attach to chat
-    models that LiteLLM marks as tool-capable AND that aren't on the
-    upstream-truth denylist; embedding / transcription endpoints reject
-    ``tools`` outright with 400.  Same gating pattern as Nebius. -#}
 {%- if is_embedding %}
-    "Python code example": {
-      "$doc_preset": {"name": "llm_code_example_embed_requests", "meta": {"sleep_after_test": 5}}
-    },
-    "JavaScript code example": {
-      "$doc_preset": {"name": "llm_code_example_embed_javascript", "meta": {"sleep_after_test": 5}}
-    },
-    "cURL code example": {
-      "$doc_preset": {"name": "llm_code_example_embed_shell", "meta": {"sleep_after_test": 5}}
-    },
+    "$llm_example_collection": {
+      "capabilities": ["embed"],
+      "formats": ["openai"],
+      "upstream_dialect": "openai",
+      "sleep": 5
+    }
 {%- elif is_transcription %}
-    "Python code example": {
-      "$doc_preset": {"name": "llm_code_example_transcription_requests", "meta": {"sleep_after_test": 5}}
+    "$llm_example_collection": {
+      "capabilities": ["speech-transcribe"],
+      "formats": ["openai"],
+      "upstream_dialect": "openai",
+      "sleep": 5
     },
     "JavaScript code example": {
       "category": "code_example",
@@ -74,38 +83,17 @@
       "is_public": true,
       "mime_type": "bash",
       "meta": {"sleep_after_test": 5}
-    },
-{%- else %}
-    "Python code example": {
-      "$doc_preset": {"name": "llm_code_example_openai", "meta": {"sleep_after_test": 5}}
-    },
-{%- if supports_function_calling %}
-    "Python function calling code example": {
-      "$doc_preset": {"name": "llm_code_example_fc_requests", "meta": {"sleep_after_test": 5}}
-    },
-{%- endif %}
-    "JavaScript code example": {
-      "$doc_preset": {"name": "llm_code_example_javascript", "meta": {"sleep_after_test": 5}}
-    },
-    "cURL code example": {
-      "$doc_preset": {"name": "llm_code_example_shell", "meta": {"sleep_after_test": 5}}
-    },
-    {#- Anthropic-dialect examples (R9): the upstream speaks OpenAI, so
-        specs run-tests (local_testing) calls it in OpenAI form, while the
-        gateway path speaks Anthropic and exercises the llm_translator.
-        These ship as unitysvc-data presets — do not vendor local copies. #}
-    "Python code example (Anthropic-style input)": {
-      "$doc_preset": {"name": "llm_code_example_anthropic_to_openai_sdk", "meta": {"sleep_after_test": 5}}
-    },
-    "cURL code example (Anthropic-style input)": {
-      "$doc_preset": {"name": "llm_code_example_anthropic_to_openai_shell", "meta": {"sleep_after_test": 5}}
-    },
-{%- endif %}
-    "Connectivity test": {
-      "$doc_preset": {"name": "llm_connectivity", "meta": {"sleep_after_test": 5}}
-    },
-    "Default request body": {
-      "$doc_preset": "llm_request_template"
     }
+{%- else %}
+    "$llm_example_collection": {
+      "capabilities": ["chat"],
+      "formats": ["openai", "anthropic"],
+      "upstream_dialect": "openai",
+      {#- Tool examples 400 on models LiteLLM does not mark tool-capable, and
+          on the repo's upstream-truth denylist. -#}
+      "tools": {{ (supports_function_calling | default(false)) | tojson }},
+      "sleep": 5
+    }
+{%- endif %}
   }
 }
