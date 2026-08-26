@@ -94,11 +94,16 @@ class ModelSource:
         sambanova_specific = (self.litellm_data or {}).get(
             f"sambanova/{model_id}", model_data
         )
+        # LiteLLM is sometimes optimistic; corrections belong in per-model
+        # <name>.override.json companions (merged at render time by every
+        # specs command), never in this script. Note ``DeepSeek-V3.1-cb``
+        # (continuous-batch variant) is gated automatically by the
+        # ``sambanova/<model>``-first lookup since LiteLLM has no entry for
+        # it — add an override file if a future LiteLLM release grows an
+        # optimistic row.
         supports_function_calling = bool(
             (sambanova_specific or {}).get("supports_function_calling")
         )
-        if model_id in self._FC_DENYLIST:
-            supports_function_calling = False
 
         if "owned_by" in model_info:
             details["owned_by"] = model_info["owned_by"]
@@ -169,17 +174,6 @@ class ModelSource:
             "api_base_url": API_BASE_URL,
             "env_api_key_name": ENV_API_KEY_NAME,
         }
-
-    # Models LiteLLM marks as tool-capable but SambaNova's chat-completion
-    # endpoint rejects with 400 when ``tools`` is sent.  Empirically
-    # discovered — drop entries when SambaNova adds upstream support.
-    # ``DeepSeek-V3.1-cb`` (continuous-batch variant of V3.1) is gated
-    # automatically by the ``sambanova/<model>``-first lookup since
-    # LiteLLM has no entry for it; kept here as documentation in case a
-    # future LiteLLM release adds an optimistic row.
-    _FC_DENYLIST = frozenset({
-        "DeepSeek-V3.1-cb",
-    })
 
     def _determine_service_type(self, model_id: str) -> str:
         model_lower = model_id.lower()
