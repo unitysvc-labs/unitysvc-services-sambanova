@@ -4,6 +4,21 @@
   "homepage": "https://sambanova.ai/",
   "logo": "https://sambanova.ai/hubfs/logotype_sambanova.svg",
   "name": "sambanova",
+  "rate_limits": [
+    {
+      "description": "Self-imposed ceiling so platform test sweeps cannot saturate the account; not a published provider limit.",
+      "limit": 10,
+      "name": "sambanova_concurrency",
+      "unit": "concurrent"
+    },
+    {
+      "description": "Self-imposed ceiling so platform test sweeps cannot saturate the account; not a published provider limit.",
+      "limit": 100,
+      "name": "sambanova_rpm",
+      "unit": "requests",
+      "window": "minute"
+    }
+  ],
   "status": "ready",
   "terms_of_service": "https://sambanova.ai/terms-and-conditions",
   "time_created": "2025-09-01T00:00:00Z"
