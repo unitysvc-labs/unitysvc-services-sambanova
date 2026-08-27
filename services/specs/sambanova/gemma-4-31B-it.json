@@ -26,10 +26,9 @@
     },
     "offering_name": "gemma-4-31B-it",
     "payout_price": {
-      "description": "Service provider charges $0.38 / $1.15 per 1M input/output tokens",
-      "input": "0",
-      "output": "0",
-      "type": "one_million_tokens"
+      "description": "Free (BYOK)",
+      "price": "0",
+      "type": "constant"
     },
     "pricing_note": "$0.38 / $1.15 per 1M input/output tokens",
     "provider_display_name": "SambaNova",
