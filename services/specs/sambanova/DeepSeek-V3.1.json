@@ -29,7 +29,7 @@
       "price": "0",
       "type": "constant"
     },
-    "pricing_note": "$0.27 / $1 / $0.216 per 1M input/output/cached tokens",
+    "pricing_note": "$0.25 / $0.95 / $0.216 per 1M input/output/cached tokens",
     "provider_display_name": "SambaNova",
     "service_type": "llm",
     "status": "ready",
