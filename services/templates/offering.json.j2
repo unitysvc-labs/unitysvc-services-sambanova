@@ -36,10 +36,23 @@
   {#- Platform capability vocabulary (unitysvc docs/capabilities.yml): every
      model here is a chat service — a conversation in, generated text out.
      `service_type` stays as-is; only the capability moves. -#}
-  "capabilities": ["chat"],
+{%- set _capabilities = ["chat"] %}
+  "capabilities": {{ _capabilities | tojson }},
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
-  "tags": ["ai", "gateway", "byok"],
+{#- Tags are a CLOSED vocabulary (unitysvc docs/tags.yml, unitysvc#1962) and
+    ingest now REJECTS anything outside it.  The old ai / gateway / byok trio
+    only restated service_type, gateway_type and the enrollment channel — all
+    three are derived by the platform — so the whole list is gone.
+    `feature:func-call` is the one tag a seller may still declare.  It keys on
+    the same `supports_function_calling` signal the listing template uses to
+    decide whether to render tool examples, so a tagged model always ships a
+    tool example that actually works.  The chat guard is redundant today (every
+    model in this catalog is chat) but keeps a future embedding/rerank entry
+    from ever claiming the tag. -#}
+{%- if "chat" in _capabilities and supports_function_calling | default(false) %}
+  "tags": ["feature:func-call"],
+{%- endif %}
 {#- Merge the dual-dialect formats into the provider's details (R8); the
     llm_translator below exposes the OpenAI upstream in both dialects. #}
 {%- set _details = details.copy() %}
