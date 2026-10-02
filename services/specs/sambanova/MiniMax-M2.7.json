@@ -32,7 +32,7 @@
     "pricing_note": "$0.6 / $2.4 per 1M input/output tokens",
     "provider_display_name": "SambaNova",
     "service_type": "llm",
-    "status": "ready",
+    "status": "deprecated",
     "supports_function_calling": true
   }
 }
