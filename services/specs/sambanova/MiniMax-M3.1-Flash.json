@@ -4,9 +4,13 @@
     "description": "Minimax M3.1 Flash language model",
     "details": {
       "context_length": 1048576,
+      "litellm_provider": "together_ai",
+      "max_input_tokens": 1048576,
+      "max_tokens": 1048576,
       "metadata_sources": {
         "context_length": "openrouter"
       },
+      "mode": "chat",
       "object": "model",
       "owned_by": "no-reply@sambanova.ai",
       "parameter_count": null
@@ -24,7 +28,7 @@
       "price": "0",
       "type": "constant"
     },
-    "pricing_note": null,
+    "pricing_note": "$0.15 / $0.6 / $0.015 per 1M input/output/cached tokens",
     "provider_display_name": "SambaNova",
     "service_type": "llm",
     "status": "ready",
