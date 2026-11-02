@@ -7,7 +7,6 @@
       "litellm_provider": "azure_ai",
       "max_input_tokens": 163840,
       "max_output_tokens": 163840,
-      "max_tokens": 163840,
       "metadata_sources": {
         "context_length": "openrouter"
       },
