@@ -4,9 +4,8 @@
     "description": "Minimax M3.1 Flash language model",
     "details": {
       "context_length": 1048576,
-      "litellm_provider": "together_ai",
-      "max_input_tokens": 1048576,
-      "max_output_tokens": 1048576,
+      "litellm_provider": "minimax",
+      "max_input_tokens": 1000000,
       "metadata_sources": {
         "context_length": "openrouter"
       },
@@ -32,6 +31,6 @@
     "provider_display_name": "SambaNova",
     "service_type": "llm",
     "status": "ready",
-    "supports_function_calling": false
+    "supports_function_calling": true
   }
 }
