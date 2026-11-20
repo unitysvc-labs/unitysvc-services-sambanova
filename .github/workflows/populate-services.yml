@@ -14,6 +14,12 @@ jobs:
   populate:
     uses: unitysvc-labs/.github/.github/workflows/seller-populate-services.yml@main
     secrets: inherit
+    # Every service in this repo is a BYOK LLM service (customer's own key,
+    # nothing billed by the platform), so the nightly PR is merged without
+    # review once Validate Data and Format Check pass. Remove this if the repo
+    # ever gains a managed or BYOE channel.
+    with:
+      auto_merge: true
     permissions:
       contents: write
       pull-requests: write
